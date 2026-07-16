@@ -91,7 +91,7 @@ if city and api_key and not go:
 
 # Show a friendly message if no data is loaded yet
 if not go and not city:
-    st.info("👋 Enter a city above to get personalized outfit recommendations based on your local weather!")
+    st.info("Enter a city above to get personalized outfit recommendations based on your local weather!")
 
 if go:
     if not api_key:
