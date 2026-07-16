@@ -55,12 +55,15 @@ with location_col1:
 with location_col2:
     loc_toggle = st.toggle("Auto", value=True, help="Attempt auto-location via GPS/IP")
 
-# Native Browser Geolocation (Streamlit 1.34+)
-geo_data = st.geolocation_toggle()
+# Native Browser Geolocation (Fallback for older Streamlit versions)
 location_coords = None
-if geo_data:
-    if geo_data.get('latitude') and geo_data.get('longitude'):
+try:
+    geo_data = st.geolocation_toggle()
+    if geo_data and geo_data.get('latitude') and geo_data.get('longitude'):
         location_coords = (geo_data['latitude'], geo_data['longitude'])
+except AttributeError:
+    # If the cloud hasn't updated to Streamlit >= 1.34.0, silently skip GPS
+    geo_data = None
 
 # Auto-detection logic
 if loc_toggle and not st.session_state.auto_loaded:
